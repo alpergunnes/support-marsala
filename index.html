@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Support.Marsala.com</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+</head>
+
+<body>
+  <style>
+    body {
+      background-color: #F3EFEF
+    }
+  </style>
+  <div class="menu" id="ustMenu">
+    <a class="active" href="anasayfa.html">Ana Sayfa</a>
+    <a>Çalışanlarımız</a>
+    <a>İletişim</a>
+    <a href="script.js" class="icon" onclick="myFunction()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </a>
+  </div>
+
+  <!--navbar-->
+  <div class="container">
+    <a href="#" class="brand-logo">
+      <img src="marsala1.png" width="150" style="width:140px; margin-top:-75px;" />
+    </a>
+    <div class="divMain">
+      <b>
+        <p style="color:#000000">Kapatılmamış şikayetiniz varsa yeni şikayet açamazsınız</p>
+      </b>
+      <form id="support-form">
+        <select name="tur" style="font-size:20px;width:800px;">
+          <option>Lütfen Seçim Yapınız...</option>
+          <option value="0">Marsala</option>
+          <option value="1">Öneri-İstek</option>
+          <option value="2">Code-İşlemleri</option>
+          <option value="10">Diğer</option>
+        </select><br><br>
+        <div style="visibility:hidden;"><b>Başlık</b> (En az 10 karakter olmalı)<br>
+        <input type="text" name="baslik" value="" style="font-size:20px;width:800px;"
+          placeholder="Şikayetinizi kısaca yazınız"><br><br></div>
+        
+        <b>Destek</b> (En az 20 karakter olmalı)<br>
+        <textarea id="summernote" ></textarea>
+
+        <input type="submit" value="Gönder">
+      </form>
+
+
+    </div>
+
+
+    <script>
+      var $summernote = $('#summernote');
+      var isCodeView;
+
+      $(() => {
+        $summernote.summernote({
+          height: 300,
+          focus: true
+        });
+      });
+
+      /* Our form won't send data properly while we are in code view mode (HTML editor as opposed to the WYSIWYG editor). It does, however, work in editable (WYSIWYG) mode. Therefore, in case we are in code view, we will toggle it back before submitting our form. In order to do that, we set a boolean true or false depending on the editor state. */
+
+      $summernote.on('summernote.codeview.toggled', () => {
+        isCodeView = $('.note-editor').hasClass('codeview');
+      });
+
+      $("#edit").submit((event) => {
+
+        if (isCodeView == true) {
+          $summernote.summernote('codeview.toggle');
+        }
+
+        var body = $summernote.summernote('code');
+        document.getElementById('body').setAttribute('value', body);
+
+      });
+    </script>
+
+    <script src="script.js"></script>
+    <script src="support.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
+        apiKey: "AIzaSyBnpbDhu3pGLFQV495uYdDAR1MmH7oWq6I",
+        authDomain: "support-destek-3cacf.firebaseapp.com",
+        projectId: "support-destek-3cacf",
+        storageBucket: "support-destek-3cacf.appspot.com",
+        messagingSenderId: "780296596593",
+        appId: "1:780296596593:web:0fb9725b15237da860bfd0",
+        measurementId: "G-7J1S2TCLK9"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      //firebase.analytics();
+      const db = firebase.firestore();
+    </script>
+
+</body>
+
+</html>
